@@ -15,6 +15,10 @@ public class Animal {
 
     private String raca;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_pessoa")
+    private Pessoa pessoa;
+
     public long getId(){
         return id;
     }
@@ -37,13 +41,21 @@ public class Animal {
         this.raca = raca;
     }
 
-    @Override
-    public String toString(){
-        return "Animal{" +
-                "id=" + id +
-                ", nome=" + nome +
-                ", raça=" + raca + '\'' +
-                "}";
+    public Pessoa getPessoa() {
+        return pessoa;
     }
 
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", raca='" + raca + '\'' +
+                ", pessoa=" + pessoa +
+                '}';
+    }
 }

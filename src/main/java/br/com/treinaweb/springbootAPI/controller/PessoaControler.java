@@ -38,6 +38,7 @@ public class PessoaControler {
     @RequestMapping(value = "/pessoa", method = RequestMethod.POST)
     public ResponseEntity<Pessoa> Post(@Valid @RequestBody Pessoa pessoa){
         System.out.println(pessoa);
+
         try{
             Pessoa saved = _pessoaRepository.save(pessoa);
             return new ResponseEntity<>(saved, HttpStatus.OK);

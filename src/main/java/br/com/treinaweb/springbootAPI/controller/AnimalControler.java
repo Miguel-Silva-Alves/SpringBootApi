@@ -3,6 +3,7 @@ package br.com.treinaweb.springbootAPI.controller;
 import br.com.treinaweb.springbootAPI.entity.Animal;
 import br.com.treinaweb.springbootAPI.entity.Pessoa;
 import br.com.treinaweb.springbootAPI.repositorry.AnimalRepository;
+import br.com.treinaweb.springbootAPI.repositorry.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import java.util.Optional;
 public class AnimalControler {
     @Autowired
     private AnimalRepository _animalRepository;
+    @Autowired
+    private PessoaRepository _pessoaRepository;
 
     @RequestMapping(value = "/animal", method = RequestMethod.GET)
     public List<Animal> Get(){
@@ -33,6 +36,12 @@ public class AnimalControler {
 
     @RequestMapping(value = "/animal", method = RequestMethod.POST)
     public ResponseEntity<Animal> Post(@Valid @RequestBody Animal animal){
+        System.out.println(animal);
+        long id_pessoa = animal.getPessoa().getId(); // pega o id-pessoa que esta no animal pq aqui eu nap passo comp parametro nada de pessoa
+        Optional<Pessoa> pessoa = _pessoaRepository.findById(id_pessoa); //_pessoaRepositorio tem todas as pessoas cadastradas, encontra pessoa especifica pelo id
+        if(pessoa.isPresent()){
+            animal.setPessoa(pessoa.get());
+        }
         System.out.println(animal);
         try{
             Animal saved = _animalRepository.save(animal);
