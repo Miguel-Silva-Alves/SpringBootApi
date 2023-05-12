@@ -1,6 +1,8 @@
 package br.com.treinaweb.springbootAPI.controller;
 
+import br.com.treinaweb.springbootAPI.entity.Animal;
 import br.com.treinaweb.springbootAPI.entity.Pessoa;
+import br.com.treinaweb.springbootAPI.repositorry.AnimalRepository;
 import br.com.treinaweb.springbootAPI.repositorry.PessoaRepository;
 import org.apache.tomcat.util.descriptor.web.WebXml;
 import org.hibernate.PropertyValueException;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,6 +23,8 @@ import java.util.Optional;
 public class PessoaControler {
     @Autowired
     private PessoaRepository _pessoaRepository;
+    @Autowired
+    private AnimalRepository _animalRepository;
 
     @RequestMapping(value = "/pessoa", method = RequestMethod.GET)
     public List<Pessoa> Get(){
@@ -33,6 +38,31 @@ public class PessoaControler {
             return new ResponseEntity<>(pessoa.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "/pessoaAnimal/{id_pessoa}", method = RequestMethod.GET)
+    public List<Animal> GetByIds(@PathVariable(value = "id_pessoa") long id_pessoa){
+        List<Animal> animals = new ArrayList<>();
+
+        //percorrer os animais
+        for(Animal animal : _animalRepository.findAll()){
+            Pessoa pessoa = animal.getPessoa();
+            //verificar se a pessoa é nula
+            if(pessoa != null){
+                long id_pessoa_animal = pessoa.getId();
+                //printar eles
+                System.out.println(id_pessoa_animal);
+                //printar so os animais com o id_pessoa
+                if (id_pessoa_animal == id_pessoa){
+                    System.out.println(animal);
+                    //adicionar na lista de animais
+                    animals.add(animal);
+                }
+            }
+        }
+
+
+        return animals;
     }
 
     @RequestMapping(value = "/pessoa", method = RequestMethod.POST)
@@ -50,6 +80,7 @@ public class PessoaControler {
         }
 
     }
+
 
     @RequestMapping(value = "/pessoa/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Pessoa> Put(@PathVariable(value = "id") long id, @Valid @RequestBody Pessoa newPessoa){

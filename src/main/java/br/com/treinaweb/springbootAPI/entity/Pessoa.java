@@ -4,6 +4,8 @@ package br.com.treinaweb.springbootAPI.entity;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,8 +18,13 @@ public class Pessoa
     @Column(nullable = false)
     private String nome;
 
+
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -27,11 +34,6 @@ public class Pessoa
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
 
     @Override
     public String toString() {
