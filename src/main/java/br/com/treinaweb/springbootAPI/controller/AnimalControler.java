@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @RestController
@@ -32,6 +33,19 @@ public class AnimalControler {
             return new ResponseEntity<>(animal.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @RequestMapping(value = "/AnimalRaca/{raca}", method = RequestMethod.GET)
+    public List<Animal> GetByIds(@PathVariable(value = "raca") String raca) {
+        List<Animal> animals = new ArrayList<>();
+        //percorrer os animais
+        for (Animal animal : _animalRepository.findAll()) {
+            String raca_animal = animal.getraca();
+            if (raca_animal.equals(raca)) {
+                animals.add(animal);
+            }
+        }
+        return animals;
     }
 
     @RequestMapping(value = "/animal", method = RequestMethod.POST)
