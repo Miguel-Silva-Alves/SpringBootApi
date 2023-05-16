@@ -1,7 +1,9 @@
 package br.com.treinaweb.springbootAPI.entity;
 
 
+import br.com.treinaweb.springbootAPI.repositorry.PessoaRepository;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Set;
 @Entity
 public class Pessoa
 {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -43,6 +46,13 @@ public class Pessoa
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public boolean validate_cpf(String cpf){
+        if (cpf.length() != 14) {
+            return false;
+        }
+        return true;
     }
 
     @Override

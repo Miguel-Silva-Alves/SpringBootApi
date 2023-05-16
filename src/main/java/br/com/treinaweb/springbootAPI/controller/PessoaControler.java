@@ -68,6 +68,10 @@ public class PessoaControler {
     @RequestMapping(value = "/pessoa", method = RequestMethod.POST)
     public ResponseEntity<Pessoa> Post(@Valid @RequestBody Pessoa pessoa){
         System.out.println(pessoa);
+        boolean cpf_validate = pessoa.validate_cpf(pessoa.getCpf());
+        if (!cpf_validate){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         try{
             Pessoa saved = _pessoaRepository.save(pessoa);
