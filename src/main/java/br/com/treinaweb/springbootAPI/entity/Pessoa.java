@@ -60,6 +60,19 @@ public class Pessoa
         if (!cpf.substring(0,3).matches("[0-9]*")){
             return false;
         }
+        //cria lista para guardar numeros
+        int[] numeros_cpf = new int[9];
+
+        //converte a string em numero e insere na lista
+        int nmr1 = Integer.parseInt(String.valueOf(cpf.charAt(0)));
+        numeros_cpf[0] = nmr1;
+
+        int nmr2 = Integer.parseInt(String.valueOf(cpf.charAt(1)));
+        numeros_cpf[1] = nmr2;
+
+        int nmr3 = Integer.parseInt(String.valueOf(cpf.charAt(2)));
+        numeros_cpf[2] = nmr3;
+
         //2 - verifica se o primeiro ponto está no lugar correto
         String ponto1 = String.valueOf(cpf.charAt(3));
         if (!ponto1.equals(ponto)){
@@ -70,6 +83,15 @@ public class Pessoa
         if (!cpf.substring(4,7).matches("[0-9]*")){
             return false;
         }
+        //converte a string em numero e insere na lista
+        int nmr4 = Integer.parseInt(String.valueOf(cpf.charAt(4)));
+        numeros_cpf[3] = nmr4;
+
+        int nmr5 = Integer.parseInt(String.valueOf(cpf.charAt(5)));
+        numeros_cpf[4] = nmr5;
+
+        int nmr6 = Integer.parseInt(String.valueOf(cpf.charAt(6)));
+        numeros_cpf[5] = nmr6;
 
         //4 - verifica se o segundo ponto está no lugar certo
         String ponto2 = String.valueOf(cpf.charAt(7));
@@ -81,6 +103,15 @@ public class Pessoa
         if (!cpf.substring(8,11).matches("[0-9]*")){
             return false;
         }
+        //converte a string em numero e insere na lista
+        int nmr7 = Integer.parseInt(String.valueOf(cpf.charAt(8)));
+        numeros_cpf[6] = nmr7;
+
+        int nmr8 = Integer.parseInt(String.valueOf(cpf.charAt(9)));
+        numeros_cpf[7] = nmr8;
+
+        int nmr9 = Integer.parseInt(String.valueOf(cpf.charAt(10)));
+        numeros_cpf[8] = nmr9;
 
         //6 - verifica se o tracinho esta no lugar certo
         String tracinhoIndx = String.valueOf(cpf.charAt(11));
@@ -92,7 +123,37 @@ public class Pessoa
         if (!cpf.substring(12).matches("[0-9]*")){
             return false;
         }
-        //8 - verifica se os caracteres verificados no anterior seguem o padrao
+        //8 - verifica se o primeiro dentre os dois numeros segue o padrao
+
+        //fazer uma lista com os numeros do cpf
+
+        //multiplicar cada numero da lista pelos numeros necessarios
+        //somar todos os resultados das multiplicações
+        int soma1 = 0;
+        int multiplicador1 = 10;
+        int numero_index = 0;
+        while (multiplicador1 >= 2){
+            soma1 += numeros_cpf[numero_index] * multiplicador1;
+            multiplicador1--;
+            numero_index++;
+        }
+        System.out.println(soma1);
+
+        //pegar o resto da divisão da soma por 11
+        int resto_divisao1 = soma1 % 11;
+
+        //fazer 11 - resto da divisão anterior
+        int numero1_correto = 11 - resto_divisao1;
+
+        //compara se o resultado da conta foi igual oq está inserido
+        int nmr10 = Integer.parseInt(String.valueOf(cpf.charAt(12)));
+        if (nmr10 != numero1_correto) {
+            //retorna falso se o numero que foi inserido for diferente do numero que deveria ser segundo a regra
+            return false;
+        }
+
+        //9 - verifica se o segundo numero segue as regras necessarias para ser valido
+
         return true;
     }
 
