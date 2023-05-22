@@ -61,7 +61,7 @@ public class Pessoa
             return false;
         }
         //cria lista para guardar numeros
-        int[] numeros_cpf = new int[9];
+        int[] numeros_cpf = new int[10];
 
         //converte a string em numero e insere na lista
         int nmr1 = Integer.parseInt(String.valueOf(cpf.charAt(0)));
@@ -131,11 +131,11 @@ public class Pessoa
         //somar todos os resultados das multiplicações
         int soma1 = 0;
         int multiplicador1 = 10;
-        int numero_index = 0;
+        int numero_index1 = 0;
         while (multiplicador1 >= 2){
-            soma1 += numeros_cpf[numero_index] * multiplicador1;
+            soma1 += numeros_cpf[numero_index1] * multiplicador1;
             multiplicador1--;
-            numero_index++;
+            numero_index1++;
         }
         System.out.println(soma1);
 
@@ -151,9 +151,39 @@ public class Pessoa
             //retorna falso se o numero que foi inserido for diferente do numero que deveria ser segundo a regra
             return false;
         }
+        //se o numero estiver correto vai salvar na lista
+        numeros_cpf[9] = numero1_correto;
 
         //9 - verifica se o segundo numero segue as regras necessarias para ser valido
 
+        //multiplicar cada numero da lista pelos numeros necessarios
+        //somar todos os resultados das multiplicações
+        int soma2 = 0;
+        int multiplicador2 = 11;
+        int numero_index2 = 0;
+        while (multiplicador2 >= 2){
+            soma2 += numeros_cpf[numero_index2] * multiplicador2;
+            multiplicador2--;
+            numero_index2++;
+        }
+        System.out.println(soma2);
+
+        //pegar o resto da divisão da soma por 11
+        int resto_divisão2 = soma2 % 11;
+
+        //Se o resto da divisão for menor que 2, então o dígito é igual a 0
+        int numero2_correto = 0 ;
+        if (resto_divisão2 >= 2){
+            numero2_correto = 11 - resto_divisão2;
+        }
+
+        //compara se o resultado da conta foi igual oq está inserido
+        int nmr11 = Integer.parseInt(String.valueOf(cpf.charAt(13)));
+        if (nmr11 != numero2_correto) {
+            //retorna falso se o numero que foi inserido for diferente do numero que deveria ser segundo a regra
+            return false;
+        }
+        
         return true;
     }
 
