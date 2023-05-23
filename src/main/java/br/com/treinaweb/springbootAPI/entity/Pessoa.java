@@ -23,6 +23,10 @@ public class Pessoa
 
     private String cpf;
 
+    public Pessoa(String nome, String cpf) {
+        this.nome = nome;
+        this.cpf = cpf;
+    }
 
     public long getId() {
         return id;
@@ -48,18 +52,58 @@ public class Pessoa
         this.cpf = cpf;
     }
 
-    public boolean validate_cpf(String cpf){
-        String ponto = ".";
-        String tracinho = "-";
-        if (cpf.length() != 14) {
-            System.out.println("Aqui 1");
+    public boolean validate_cpf_just_numbers(String cpf){
+        //verificar se tudo dentro são numeros
+        if (!cpf.substring(0).matches("[0-9]*")){
             return false;
         }
+
+        //percorrer a string verificada e transformar a string em numero
+        int percorredor_da_String = 0;
+        int[] numeros_cpf_convertidos = new int [11];
+        while(percorredor_da_String < cpf.length()){
+
+            //convertendo string para numero e adcionando na lista
+            numeros_cpf_convertidos[percorredor_da_String] = Integer.parseInt(String.valueOf(cpf.charAt(percorredor_da_String)));
+
+            percorredor_da_String++;
+        }
+        //fazer as verificações dos dois ultimos numeros
+
+        //penultimo
+        int penultimo = numeros_cpf_convertidos[9];
+        if (!compare_lastsNumbers(numeros_cpf_convertidos, 10, penultimo)){
+            return false;
+        }
+
+        //ultimo
+        int ultimo = numeros_cpf_convertidos[10];
+        if (!compare_lastsNumbers(numeros_cpf_convertidos,11,ultimo)){
+            return false;
+        }
+
+        return true;
+    }
+    public boolean validate_cpf(String cpf){
+
+        if(cpf.length() == 11){
+            return validate_cpf_just_numbers(cpf);
+        }
+
+        //Tamanho de strings com formatação e sem fromatação
+        if (cpf.length() != 14) {
+            return false;
+        }
+
+        //CASO 1 - se a string tiver length == 14 deve ser tratada pela formatação
+
         //reparte a string em partes verificando se cada uma possui os caracteres possiveis
+
+        String ponto = ".";
+        String tracinho = "-";
 
         //1 - verifica se os 3 primeiros caracteres são numeros
         if (!cpf.substring(0,3).matches("[0-9]*")){
-            System.out.println("Aqui 2");
             return false;
         }
         //cria lista para guardar numeros
@@ -78,13 +122,11 @@ public class Pessoa
         //2 - verifica se o primeiro ponto está no lugar correto
         String ponto1 = String.valueOf(cpf.charAt(3));
         if (!ponto1.equals(ponto)){
-            System.out.println("Aqui 3");
             return false;
         }
 
         //3 - verifica se os 3 próximos caracteres são números
         if (!cpf.substring(4,7).matches("[0-9]*")){
-            System.out.println("Aqui 4");
             return false;
         }
         //converte a string em numero e insere na lista
@@ -100,13 +142,11 @@ public class Pessoa
         //4 - verifica se o segundo ponto está no lugar certo
         String ponto2 = String.valueOf(cpf.charAt(7));
         if (!ponto2.equals(ponto)){
-            System.out.println("Aqui 5");
             return false;
         }
 
         //5 - verifica se os 3 proximos caracteres são numeros
         if (!cpf.substring(8,11).matches("[0-9]*")){
-            System.out.println("Aqui 6");
             return false;
         }
         //converte a string em numero e insere na lista
@@ -122,13 +162,11 @@ public class Pessoa
         //6 - verifica se o tracinho esta no lugar certo
         String tracinhoIndx = String.valueOf(cpf.charAt(11));
         if (!tracinhoIndx.equals(tracinho)){
-            System.out.println("Aqui 7");
             return false;
         }
 
         //7 - verifica se os 2 proximos caracteres são numeros
         if (!cpf.substring(12).matches("[0-9]*")){
-            System.out.println("Aqui 8");
             return false;
         }
 
@@ -138,7 +176,6 @@ public class Pessoa
 
         //8 - verifica se o primeiro numero segue as regras necessarias para ser valido
         if (!compare_lastsNumbers(numeros_cpf,10,nmr10)){
-            System.out.println("Aqui 9");
             return false;
         }
 
@@ -148,7 +185,6 @@ public class Pessoa
 
         //9 - verifica se o segundo numero segue as regras necessarias para ser valido
         if (!compare_lastsNumbers(numeros_cpf,11,nmr11)){
-            System.out.println("Aqui 10");
             return false;
         }
 
@@ -164,8 +200,6 @@ public class Pessoa
             multiplicador--;
             numero_index++;
         }
-        System.out.println(soma);
-        // ok
 
         //pegar o resto da divisão da soma por 11
         int resto_divisao = soma % 11;
