@@ -52,12 +52,14 @@ public class Pessoa
         String ponto = ".";
         String tracinho = "-";
         if (cpf.length() != 14) {
+            System.out.println("Aqui 1");
             return false;
         }
         //reparte a string em partes verificando se cada uma possui os caracteres possiveis
 
         //1 - verifica se os 3 primeiros caracteres são numeros
         if (!cpf.substring(0,3).matches("[0-9]*")){
+            System.out.println("Aqui 2");
             return false;
         }
         //cria lista para guardar numeros
@@ -76,11 +78,13 @@ public class Pessoa
         //2 - verifica se o primeiro ponto está no lugar correto
         String ponto1 = String.valueOf(cpf.charAt(3));
         if (!ponto1.equals(ponto)){
+            System.out.println("Aqui 3");
             return false;
         }
 
         //3 - verifica se os 3 próximos caracteres são números
         if (!cpf.substring(4,7).matches("[0-9]*")){
+            System.out.println("Aqui 4");
             return false;
         }
         //converte a string em numero e insere na lista
@@ -96,11 +100,13 @@ public class Pessoa
         //4 - verifica se o segundo ponto está no lugar certo
         String ponto2 = String.valueOf(cpf.charAt(7));
         if (!ponto2.equals(ponto)){
+            System.out.println("Aqui 5");
             return false;
         }
 
         //5 - verifica se os 3 proximos caracteres são numeros
         if (!cpf.substring(8,11).matches("[0-9]*")){
+            System.out.println("Aqui 6");
             return false;
         }
         //converte a string em numero e insere na lista
@@ -116,74 +122,68 @@ public class Pessoa
         //6 - verifica se o tracinho esta no lugar certo
         String tracinhoIndx = String.valueOf(cpf.charAt(11));
         if (!tracinhoIndx.equals(tracinho)){
+            System.out.println("Aqui 7");
             return false;
         }
 
         //7 - verifica se os 2 proximos caracteres são numeros
         if (!cpf.substring(12).matches("[0-9]*")){
+            System.out.println("Aqui 8");
             return false;
         }
-        //8 - verifica se o primeiro dentre os dois numeros segue o padrao
 
-        //fazer uma lista com os numeros do cpf
-
-        //multiplicar cada numero da lista pelos numeros necessarios
-        //somar todos os resultados das multiplicações
-        int soma1 = 0;
-        int multiplicador1 = 10;
-        int numero_index1 = 0;
-        while (multiplicador1 >= 2){
-            soma1 += numeros_cpf[numero_index1] * multiplicador1;
-            multiplicador1--;
-            numero_index1++;
-        }
-        System.out.println(soma1);
-
-        //pegar o resto da divisão da soma por 11
-        int resto_divisao1 = soma1 % 11;
-
-        //fazer 11 - resto da divisão anterior
-        int numero1_correto = 11 - resto_divisao1;
-
-        //compara se o resultado da conta foi igual oq está inserido
         int nmr10 = Integer.parseInt(String.valueOf(cpf.charAt(12)));
-        if (nmr10 != numero1_correto) {
-            //retorna falso se o numero que foi inserido for diferente do numero que deveria ser segundo a regra
+        int nmr11 = Integer.parseInt(String.valueOf(cpf.charAt(13)));
+
+
+        //8 - verifica se o primeiro numero segue as regras necessarias para ser valido
+        if (!compare_lastsNumbers(numeros_cpf,10,nmr10)){
+            System.out.println("Aqui 9");
             return false;
         }
-        //se o numero estiver correto vai salvar na lista
-        numeros_cpf[9] = numero1_correto;
+
+        //se o numero estiver correto vai salvar na lista para mandar para fazer a segunda validação
+        numeros_cpf[9] = nmr10;
+
 
         //9 - verifica se o segundo numero segue as regras necessarias para ser valido
-
-        //multiplicar cada numero da lista pelos numeros necessarios
-        //somar todos os resultados das multiplicações
-        int soma2 = 0;
-        int multiplicador2 = 11;
-        int numero_index2 = 0;
-        while (multiplicador2 >= 2){
-            soma2 += numeros_cpf[numero_index2] * multiplicador2;
-            multiplicador2--;
-            numero_index2++;
+        if (!compare_lastsNumbers(numeros_cpf,11,nmr11)){
+            System.out.println("Aqui 10");
+            return false;
         }
-        System.out.println(soma2);
+
+        return true;
+    }
+
+    //METODO DE VERIFICAÇÃO DOS 2 ULTIMOS NUMEROS
+    public boolean compare_lastsNumbers(int[] numeros_cpf, int multiplicador, int numero_comparado){
+        int soma = 0;
+        int numero_index = 0;
+        while (multiplicador >= 2){
+            soma += numeros_cpf[numero_index] * multiplicador;
+            multiplicador--;
+            numero_index++;
+        }
+        System.out.println(soma);
+        // ok
 
         //pegar o resto da divisão da soma por 11
-        int resto_divisão2 = soma2 % 11;
+        int resto_divisao = soma % 11;
 
-        //Se o resto da divisão for menor que 2, então o dígito é igual a 0
-        int numero2_correto = 0 ;
-        if (resto_divisão2 >= 2){
-            numero2_correto = 11 - resto_divisão2;
+        //se for o segundo numero vai seguir outro padrao
+
+        //se o resto da divisão for menor que 2, nmr = 0
+        int numero_correto = 0;
+        if (resto_divisao >= 2){
+            numero_correto = 11 - resto_divisao;
         }
 
         //compara se o resultado da conta foi igual oq está inserido
-        int nmr11 = Integer.parseInt(String.valueOf(cpf.charAt(13)));
-        if (nmr11 != numero2_correto) {
+        if (numero_comparado != numero_correto) {
             //retorna falso se o numero que foi inserido for diferente do numero que deveria ser segundo a regra
             return false;
         }
-        
+
         return true;
     }
 
