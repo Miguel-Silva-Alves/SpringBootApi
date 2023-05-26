@@ -60,8 +60,6 @@ public class PessoaControler {
                 }
             }
         }
-
-
         return animals;
     }
 

@@ -13,7 +13,15 @@ public class Animal {
     @NotNull
     private String nome;
 
+    private double preco;
+
     private String raca;
+
+    public Animal(String nome, double preco, Pessoa pessoa) {
+        this.nome = nome;
+        this.preco = preco;
+        this.pessoa = pessoa;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pessoa")
@@ -26,9 +34,11 @@ public class Animal {
     public void setId(long id){
         this.id =  id;
     }
+
     public String getNome(){
         return nome;
     }
+
     public void setNome(String nome){
         this.nome =  nome;
     }
@@ -47,6 +57,14 @@ public class Animal {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     @Override

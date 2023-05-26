@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Pessoa
-{
+public class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,11 +20,26 @@ public class Pessoa
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private String cpf;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Animal> animals;
+
+    public Pessoa() {
+
+    }
 
     public Pessoa(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
+    }
+
+    public Pessoa(long id, String nome, String cpf, List<Animal> animals) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.animals = animals;
     }
 
     public long getId() {
@@ -221,6 +235,24 @@ public class Pessoa
         return true;
     }
 
+    //calcular gasto com todos os animais sendo lavados
+    public double calcular_gasto(){
+
+        double gasto_total = 0;
+        //percorrer lista de animal
+        int i = 0;
+        while(i < animals.size()){
+
+            //pegar o  preço do animal
+            Animal animal = animals.get(i);
+            //somar o preço no gasto_total
+            gasto_total+= animal.getPreco();
+
+            i++;
+        }
+
+        return gasto_total;
+    }
     @Override
     public String toString() {
         return "Pessoa{" +
