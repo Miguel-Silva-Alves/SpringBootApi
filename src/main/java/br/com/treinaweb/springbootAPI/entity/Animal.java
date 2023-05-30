@@ -23,6 +23,14 @@ public class Animal {
         this.pessoa = pessoa;
     }
 
+    public Animal(long id, String nome, double preco, String raca, Pessoa pessoa) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.raca = raca;
+        this.pessoa = pessoa;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;

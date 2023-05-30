@@ -30,9 +30,7 @@ public class PessoaTests {
 
     }
 
-    public void teste(){
 
-    }
 
     @Test
     public void testarValordoGasto(){
@@ -62,7 +60,104 @@ public class PessoaTests {
         Pessoa pessoaSemAnimais = new Pessoa(1,"Miguelzinho","11144477735",listaAnimal_vazia);
         Assertions.assertEquals(0, pessoaSemAnimais.calcular_gasto());
 
-        //passa um numero incorreto e ve o que acontece
+    }
+
+    @Test
+    public void testarValordoGastoByID(){
+
+
+
+        //TESTE 1 - PASSA OS VALORES DE ID CORRETAMENTE COM TODOS
+        //cria lista onde eu vou adicionar os animais
+        List<Animal> listaAnimalByID = new ArrayList<>();
+
+        //cria lista onde ira passar os id
+        List<Long> listaID = new ArrayList<>();
+
+        //cria pessoa que vai ser dona dos animais da lista
+        Pessoa pessoa_dono = new Pessoa(1,"Miguel","11144477735",listaAnimalByID);
+
+        //cria os animais com campo de id
+        Animal animal1 = new Animal(111,"Zeus",70.00,"Cachorro",pessoa_dono);
+        listaAnimalByID.add(animal1);
+        listaID.add(animal1.getId());
+
+        Animal animal2 = new Animal(222,"Zect",30.00,"Cachorro",pessoa_dono);
+        listaAnimalByID.add(animal2);
+        listaID.add(animal2.getId());
+
+        Animal animal3 = new Animal(333,"Spider",20.00,"Gato",pessoa_dono);
+        listaAnimalByID.add(animal3);
+        listaID.add(animal3.getId());
+
+        //chama funçao
+        Assertions.assertEquals(120.00, pessoa_dono.calcular_gasto_byID(listaID));
+
+
+
+
+
+        //TESTE 2 - PASSA OS VALORES DE ID CORRETOS MAS SEM TODOS ANIMAIS
+
+        //cria lista onde eu vou adicionar os animais
+        List<Animal> listaAnimalByID2 = new ArrayList<>();
+
+        //cria lista onde ira passar os id
+        List<Long> listaID2 = new ArrayList<>();
+
+        //cria pessoa que vai ser dona dos animais da lista
+        Pessoa pessoa_dono2 = new Pessoa(2,"Miguel","11144477735",listaAnimalByID2);
+
+        //cria os animais com campo de id
+        Animal animal4 = new Animal(444,"Zeus",20.00,"Cachorro",pessoa_dono);
+        listaAnimalByID2.add(animal4);
+        listaID2.add(animal4.getId());
+
+        Animal animal5 = new Animal(555,"Zect",20.00,"Cachorro",pessoa_dono);
+        listaAnimalByID2.add(animal5);
+        listaID2.add(animal5.getId());
+
+        Animal animal6 = new Animal(666,"Spider",20.00,"Gato",pessoa_dono);
+        listaAnimalByID2.add(animal6);
+
+
+        //chama funçao
+        Assertions.assertEquals(40.00, pessoa_dono2.calcular_gasto_byID(listaID2));
+
+
+
+
+
+        //TESTE 3 - PASSA OS VALORES DE ID INCORRETOS
+
+        //cria lista para passar id errado
+        List<Long> id_errado = new ArrayList<>();
+
+        //popula lista com valores errados
+        id_errado.add(1L);
+        id_errado.add(2L);
+        id_errado.add(3L);
+        id_errado.add(4L);
+
+        //chama funcao
+        Assertions.assertEquals(0.00, pessoa_dono2.calcular_gasto_byID(id_errado));
+
+
+
+
+
+        //TESTE 4 - PASSA UMA LISTA VAZIA
+
+        //cria lista vazia onde teoricamente era pra adicionar animais
+        List<Animal> animais_vazio = new ArrayList<>();
+
+        //cria lista de ids vazio
+        List<Long> id_vazio = new ArrayList<>();
+
+        //cria pessoa sem nenhum animal vinculado
+        Pessoa pessoa_sem_animais = new Pessoa(3,"Miguelzinho","11144477735", animais_vazio);
+
+        Assertions.assertEquals(0, pessoa_sem_animais.calcular_gasto_byID(id_vazio));
 
     }
 

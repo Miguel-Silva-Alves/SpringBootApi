@@ -243,7 +243,7 @@ public class Pessoa {
         int i = 0;
         while(i < animals.size()){
 
-            //pegar o  preço do animal
+            //pegar o animal do indice da lista e referenciar como o animal atual a ser analizado
             Animal animal = animals.get(i);
             //somar o preço no gasto_total
             gasto_total+= animal.getPreco();
@@ -253,6 +253,46 @@ public class Pessoa {
 
         return gasto_total;
     }
+
+    public double calcular_gasto_byID(List<Long> ids){
+
+        double gasto_total = 0;
+        //percorrer lista de ids
+        int order_id =0;
+        while(order_id < ids.size()){
+
+            // pegar do id do animal
+            Long id = ids.get(order_id);
+
+            // metodo chamado get_animal_by_id (int id) : Animal (Optional) or none
+            Animal animal = get_animal_by_id(id);
+
+            gasto_total+= animal.getPreco();
+
+        }
+
+        return gasto_total;
+    }
+
+    private Animal get_animal_by_id(Long id) {
+        // this.animals -> todos os animais
+
+        // percorrer a lista de animais
+        int i = 0;
+        while(i < this.animals.size()){
+            // pegar o animal
+            Animal animal = this.animals.get(i);
+
+            // comparar o id do animal com o id do parametro
+            if (animal.getId() == id){
+                // retornar o animal
+                return animal;
+            }
+        }
+
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Pessoa{" +
